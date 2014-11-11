@@ -1,0 +1,840 @@
+#!/usr/bin/perl
+use strict;
+use File::Slurp;
+use File::Basename;
+
+################################################################################
+# CONSTANTS
+################################################################################
+
+$ENV{'TERM'}  = "vt100";
+$ENV{'PATH'}  = "/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin";
+
+my $SUCCESS      = 0;
+my $ERROR        = 1;
+
+my $USAGE        = "$0 < tinydns | dnsmasq | bind >";
+
+################################################################################
+# VARIABLES
+################################################################################
+
+my $exit_code    = $SUCCESS;
+my $err_msg      = "";
+
+# TODO: Get rid of this domain specific crap
+my $dns_domain   = "lab.ingram.io";
+my $subnet_range = "10.50.3.0/24";
+
+################################################################################
+# SUBROUTINES
+################################################################################
+
+# NAME: Function f__arpafqdncheck
+# WHAT: Make sure a passed argument is a properly formaatted arpa FQDN
+#
+sub f__arpafqdncheck {
+    my $return_code   = $SUCCESS;
+    my $arg1          = $_[0];
+    my $arg2          = $_[1];
+    my $valid_ip      = 0;
+    my $return_value  = 0;
+
+    # Here $arg1 is the value of $arpa_regex
+    # $arg2 is the arpa FQDN tested against the regex for validity
+
+    # Make sure that $arg1 is present in $arg2
+    if ( $arg2 =~ /\.$arg2$/ ) {
+        # Using "." as the field separator, the first 4 elements if $arg2
+        # should be a valid IPv4 address when reveresed.
+        my @pieces  = split( /\./, $arg2 );
+        my $test_ip = "$pieces[3].$pieces[2].$pieces[1].$pieces[0]";
+        $valid_ip = &f__ipcheck( $test_ip );
+
+        if ( $valid_ip == 1 ) {
+            $return_value = 1;
+        }
+
+    }
+
+    return $return_value;      
+}
+
+#-------------------------------------------------------------------------------
+
+# NAME: Function f__emailcheck
+# WHAT: Make sure a passed argument is a properly formaatted email address
+#
+sub f__emailcheck {
+    my $return_code  = $SUCCESS;
+    my $arg          = $_[0];
+    my $max_parts    = 2;
+    my $return_value = 0;
+
+    # Here $arg is tested as an email address
+    if ( $arg ne "" ) {
+        my @parts = split( /\@/, $arg );
+        my $parts_count = scalar @parts;
+
+        if ( $parts_count == $max_parts ) {
+            $return_value = 1;
+        }
+
+    }
+
+    return $return_value;
+}
+
+#-------------------------------------------------------------------------------
+
+# NAME: Function f__loccheck
+# WHAT: Make sure a passed location is sane
+#
+sub f__loccheck {
+    my $return_code  = $SUCCESS;
+    my @arg1         = @{$_[0]};
+    my $arg2         = $_[1];
+    my $return_value = 0;
+
+    # Here @arg1 is an array of tinyDNS location entries
+    # $arg2 is tested as a valid location code
+    if (( $arg1[0] ne "" ) || ( $arg2 ne "" )) {
+        my $max_length = 2;
+        my $loc_length = length( $arg2 );
+
+        if ( $loc_length <= $max_length ) {
+
+            foreach my $loc_record ( @arg1 ) {
+                my ( $loc_code , $discard ) = split( /:/, $loc_record );
+                $loc_code =~ s/^\^//g;
+
+                if ( $arg2 eq $loc_code ) {
+                    $return_value = 1;
+                }
+
+            }
+
+        }
+
+    }
+
+    return $return_value;
+}
+
+#-------------------------------------------------------------------------------
+
+# NAME: Function f__fqhncheck
+# WHAT: Make sure a passed hostname is actually a fully qualified hostname
+#
+sub f__fqhncheck {
+    my $return_code  = $SUCCESS;
+    my $arg          = $_[0];
+    my $return_value = 0;
+
+    # Here $arg is tested as a valid fully qualified hostname
+    if ( $arg ) {
+        my $short_name     =~ s/\.$dns_domain$//g;
+        my $hostname_check = 0;
+        $hostname_check++ while ( $short_name =~ m/[^a-zA-Z0-9_\-]/g );
+
+        if (( $short_name ne $arg ) && ( $hostname_check == 0 )) {
+            $return_value = 1;
+        }
+
+    }
+
+    return $return_value;
+}
+
+#-------------------------------------------------------------------------------
+
+# NAME: Function f__sncheck
+# WHAT: Make sure a passed short hostname is not actually a fully qualified hostname
+#
+sub f__sncheck {
+    my $return_code  = $SUCCESS;
+    my $arg          = $_[0];
+    my $return_value = 0;
+
+    # Here $arg is tested as a valid short hostname
+    if ( $arg ) {
+        my $short_name     =~ s/\.$dns_domain$//g;
+        my $hostname_check = 0;
+        $hostname_check++ while ( $short_name =~ m/[^a-zA-Z0-9_\-]/g );
+
+        if (( $short_name eq $arg ) && ( $hostname_check == 0 )) {
+            $return_value = 1;
+        }
+
+    }
+
+    return $return_value;
+}
+
+#-------------------------------------------------------------------------------
+
+# NAME: Function f__ipcheck
+# WHAT: Make sure a passed IP address is actually an IP address
+#
+sub f__ipcheck {
+    my $return_code     = $SUCCESS;
+    my $arg             = $_[0];
+    my $return_value    = 0;
+
+    # Here $arg is tested as a valid IPv4 address
+    if ( $arg ) {
+        my $valid_octets = 4;
+        my @octets = split( /\./, $arg );
+        my $octet_count = scalar @octets;
+        my $has_letters = 0;
+        my $has_letters++ while ( $arg =~ m/[^0-9\.]/g );
+
+        if (( $octet_count == $valid_octets ) && ( $has_letters == 0 )) {
+            my $counter = 0;
+
+            while ( $counter < $valid_octets ) {
+
+                if (( $counter == 0 ) || ( $counter == 3 )) {
+
+                    if (( $octets[$counter] > 254 ) || ( $octets[$counter] < 1 )) {
+                        $return_code++;
+                    }
+
+                } else {
+
+                    if (( $octets[$counter] > 254 ) || ( $octets[$counter] < 0 )) {
+                        $return_code++;
+                    }
+
+                }
+
+                $counter++;
+            }
+
+        } else {
+            $return_code++;
+        }
+
+    } else {
+        $return_code++;
+    }
+
+    if ( $return_code == $SUCCESS ) {
+        $return_value = 1;
+    }
+
+    return $return_value;
+}
+
+#-------------------------------------------------------------------------------
+
+# NAME: Function f__tinydns
+# WHAT: Convert source DNS data to TinyDNS data format
+#
+sub f__tinydns {
+    my $return_code  = $SUCCESS;
+    my $data_dir     = $_[0];
+    my $data_file    = "tinydns.data";
+    my $arpa_regex   = "";
+    my $msg          = ""; 
+    my $write_record = ""; 
+
+    chdir( $data_dir );
+    system( "rm -f \"$data_file\" >/dev/null 2>\&1" );
+
+    print "    Conversion to TinyDNS data format: $data_dir/$data_file\n";
+
+    my ( $network, $netmask ) = split( /\// , $subnet_range );
+    my ( $one, $two, $three, $four ) = split( /\./, $network );
+
+    if ( $four ne "" ) {
+
+        if ( $netmask eq "8" ) {
+            $arpa_regex = $one . "\.in-addr.arpa";
+        } elsif ( $netmask eq "16" ) {
+            $arpa_regex = $two . "." . $one . ".in-addr.arpa";
+        } elsif ( $netmask eq "24" ) {
+            $arpa_regex = $three . "." . $two . "." . $one . ".in-addr.arpa";
+        } else {
+            $err_msg    = "Unknown netmask: \"$netmask\"\n";
+            $return_code++;
+        }
+
+        # Start checking tinyDNS syntax
+        if ( $arpa_regex ) {
+            my $max_loc_length     = 2;
+            my @loc_records        = "";
+            my @soa_records        = "";
+            my @soa_ns_a_records   = "";
+            my @ns_a_records       = "";
+            my @mx_records         = "";
+            my @a_ptr_records      = "";
+            my @a_records          = "";
+            my @ptr_records        = "";
+            my @cname_records      = "";
+            my @ordered_records    = "";
+            chomp( my @all_records = read_file( "records" ));
+
+            foreach ( @all_records ) {
+                my $this_record = $_;
+
+                if ( $this_record !~ /^#|^.$/ ) {
+
+                    if ( $this_record =~ /^\%/ ) {
+                        push( @loc_records, $this_record );
+                    } elsif ( $this_record =~ /^Z/ ) {
+                        push( @soa_records, $this_record );
+                    } elsif ( $this_record =~ /^\./ ) {
+                        push( @soa_ns_a_records, $this_record );
+                    } elsif ( $this_record =~ /^\&/ ) {
+                        push( @ns_a_records, $this_record );
+                    } elsif ( $this_record =~ /^\@/ ) {
+                        push( @mx_records, $this_record );
+                    } elsif ( $this_record =~ /^\=/ ) {
+                        push( @a_ptr_records, $this_record );
+                    } elsif ( $this_record =~ /^\+/ ) {
+                        push( @a_records, $this_record );
+                    } elsif ( $this_record =~ /^\^/ ) {
+                        push( @ptr_records, $this_record );
+                    } elsif ( $this_record =~ /^C/ ) {
+                        push( @cname_records, $this_record );
+                    } else {
+                        print "        WARNING:  Unknown record type: $this_record\n";
+                    }
+
+                }
+
+            }
+
+            # Records get processed in this order:
+            # % - these are locations
+            # Z - these are SOA records
+            # . - these are SOA + NS + A records
+            # & - these are NS + A records
+            # @ - these are MX records
+            # = - these are A + PTR records
+            # + - these are A records
+            # ^ - these are PTR records
+            # C - these are CNAME records
+
+            push(@ordered_records, @loc_records);
+            push(@ordered_records, @soa_records);
+            push(@ordered_records, @soa_ns_a_records);
+            push(@ordered_records, @ns_a_records);
+            push(@ordered_records, @mx_records);
+            push(@ordered_records, @a_ptr_records);
+            push(@ordered_records, @a_records);
+            push(@ordered_records, @ptr_records);
+            push(@ordered_records, @cname_records);
+
+            open( TINYDNS_DATA, ">$data_dir/$data_file" );
+
+            foreach my $record ( @ordered_records ) {
+                $msg          = "";
+                $err_msg      = "";
+                $write_record = 0;
+
+                if ( $record ne "" ) {
+                    my @elements        = split(/:/, $record );
+                    my $first_character = substr( $elements[0], 0, 1 );
+                    my $part_count      = scalar @elements;
+
+                    # Location records
+                    # Format: %<2 letter location code>:<ACL ip prefix>
+                    if ( $first_character eq "%" ) {
+                        my $max_parts      = 2;
+                        my $min_parts      = 1;
+                        my $this_loc       = $elements[0];
+                        my $this_loc       =~ s/^$first_character//g;
+                        my $loc_length     = length( $this_loc );
+
+                        if ( $loc_length <= $max_loc_length ) {
+
+                            if (( $part_count >= $min_parts ) && ( $part_count <= $max_parts )) {
+                                $msg = "        Adding validated Location record entry: \"$record\"";
+                                $write_record = 1;
+                            } else {
+                                $err_msg = "            ERROR:  Malformed record entry: \"$record\"";
+                            }
+
+                        } else {
+                            $err_msg = "            ERROR:  Invalid location definition in record entry: \"$record\"";
+                        }
+
+                    # SOA records
+                    # Format: Z<fqdn>:<name server fqhn>:<DNS admin email>:ser:ref:ret:exp:min:ttl:timestamp:<2 letter location code>
+                    } elsif ( $first_character eq "Z" ) {
+                        my $max_parts   = 11;
+                        my $min_parts   = 1;
+                        my $valid_loc   = 0;
+                        my $is_fqhn     = 0;
+                        my $valid_email = 0;
+
+                        if (( $part_count >= $min_parts ) && ( $part_count <= $max_parts )) {
+                            my $this_loc  = $elements[$max_parts-1];
+
+                            # Make sure the optional location code is properly defined if present
+                            if ( $this_loc eq "" ) {
+                                $valid_loc = 1;
+                            } else {
+                                $valid_loc = &f__loccheck( \@loc_records, $this_loc );
+                            }
+
+                            if ( $valid_loc == 1 ) {
+                                # Check FQDN validity of element 0
+                                my $this_fqdn = $elements[0]; 
+                                $this_fqdn =~ s/^$first_character//g;
+
+                                if ( $this_fqdn =~ /^$dns_domain$/ ) {
+                                    # Check FQHN validity of element 1
+                                    my $this_fqhn = $elements[1]; 
+                                    $this_fqhn    =~ s/^$first_character//g;
+                                    $is_fqhn      = &f__fqhncheck( $this_fqhn );
+
+                                    if ( $is_fqhn == 1 ) {
+                                        # Check email validity of element 2
+                                        my $this_email = $elements[2];
+
+                                        if ( $this_email eq "" ) {
+                                            $valid_email = 0;
+                                        } else {
+                                            $valid_email = &f__emailcheck( $this_email );
+                                        }
+
+                                        if ( $valid_email == 1 ) {
+                                            $msg = "        Adding validated SOA record entry: \"$record\"";
+                                            $write_record = 1;
+                                        } else {
+                                            $err_msg = "            ERROR:  Invalid email address in record entry: \"$record\"";
+                                        }
+
+                                    } else {
+                                        $err_msg = "            ERROR:  Invalid hostname in record entry: \"$record\"";
+                                    }
+
+                                } else {
+                                    $err_msg = "            ERROR:  Invalid domain name in record entry: \"$record\"";
+                                }
+
+                            } else {
+                                $err_msg = "            ERROR:  Invalid location definition in record entry: \"$record\"";
+                            }
+
+                        }
+
+                    # SOA + NS + A records (.), or NS + A records (&)
+                    # Format: [.|&]<fqdn>:<ip address>:<short hostname>:ttl:timestamp:<2 letter location code>
+                    } elsif ( $first_character =~ /[\.|\&]/ ) {
+                        my $max_parts    = 6;
+                        my $min_parts    = 3;
+                        my $valid_loc    = 0;
+                        my $is_forward   = 0;
+                        my $is_reverse   = 0;
+                        my $is_ipaddress = 0;
+                        my $is_fqhn      = 0;
+                        my $is_shn       = 0;
+                        my $valid_name   = 0;
+
+                        if (( $part_count >= $min_parts ) && ( $part_count <= $max_parts )) {
+                            my $this_loc  = $elements[$max_parts-1];
+
+                            # Make sure the optional location code is properly defined if present
+                            if ( $this_loc eq "" ) {
+                                $valid_loc = 1;
+                            } else {
+                                $valid_loc = &f__loccheck( \@loc_records, $this_loc );
+                            }
+
+                            if ( $valid_loc == 1 ) {
+                                my $first_element = $elements[0];
+                                $first_element =~ s/^$first_character//g;
+
+                                # This element is either a forward or reverse zone record
+                                if ( $first_element =~ /^$dns_domain$/ ) {
+                                    $is_forward = 1;
+                                }
+
+                                if ( $first_element =~ /^$arpa_regex$/ ) {
+                                    $is_reverse = 1;
+                                }
+
+                                if (( $is_forward == 1 ) || ( $is_reverse == 1 )) {
+                                    # Make sure $elements[1] is a properly formatted IP address
+                                    $is_ipaddress = &f__ipcheck( $elements[1] );
+
+                                    if ( $is_ipaddress == 1 ) {
+                                        # Make sure $elements[2] is either a proper short hostname or FQHN
+
+                                        if ( $elements[2] ne "" ) {
+                                            $is_fqhn = &f__fqhncheck( $elements[2] );
+                                            $is_shn  = &f__sncheck( $elements[2] );
+
+                                            if (( $is_fqhn == 1 ) || ( $is_shn == 1 )) {
+                                                $valid_name = 1;
+                                            }
+
+                                        } else {
+                                            $valid_name = 1;
+                                        }
+                                        
+                                        if ( $valid_name == 1 ) {
+                                            $msg = "        Adding validated SOA+NS+A record entry: \"$record\"";
+                                            $write_record = 1;
+                                        } else {
+                                            $err_msg = "            ERROR:  Invalid hostname in record entry: \"$record\"";
+                                        }
+
+                                    } else {
+                                        $err_msg = "            ERROR:  Invalid IP address in record entry: \"$record\"";
+                                    }
+
+                                } else {
+                                    $err_msg = "            ERROR:  Malformed zone definition in record entry: \"$record\"";
+                                }
+
+                            } else {
+                                $err_msg = "            ERROR:  Invalid location definition in record entry: \"$record\"";
+                            }
+
+                        } else {
+                            $err_msg = "            ERROR:  Malformed record entry: \"$record\"";
+                        }
+
+                    # MX records (@)
+                    # Format: @<fqdn>:<ip address>:<short hostname>:dist:ttl:timestamp:<2 letter location code>
+                    } elsif ( $first_character eq "\@" ) {
+                        my $max_parts    = 7;
+                        my $min_parts    = 2;
+                        my $valid_loc    = 0;
+                        my $is_fqdn      = 0;
+                        my $is_ipaddress = 0;
+                        my $is_fqhn      = 0;
+                        my $is_shn       = 0;
+                        my $valid_name   = 0;
+
+                        if (( $part_count >= $min_parts ) && ( $part_count <= $max_parts )) {
+                            my $this_loc  = $elements[$max_parts-1];
+
+                            # Make sure the optional location code is properly defined if present
+                            if ( $this_loc eq "" ) {
+                                $valid_loc = 1;
+                            } else {
+                                $valid_loc = &f__loccheck( \@loc_records, $this_loc );
+                            }
+
+                            if ( $valid_loc == 1 ) {
+                                my $first_element = $elements[0];
+                                $first_element =~ s/^$first_character//g;
+
+                                # This element should be the FQDN of the MX record
+                                if ( $first_element =~ /^$dns_domain$/ ) {
+                                    $is_fqdn = 1;
+                                }
+
+                                if ( $is_fqdn == 1 ) {
+
+                                    # The second element is an optional IP address
+                                    if ( $elements[1] ne "" ) {
+                                        $is_ipaddress = &f__ipcheck( $elements[1] );
+                                    } else {
+                                        $is_ipaddress = 1;
+                                    }
+
+                                    if ( $is_ipaddress == 1 ) {
+                                        # The third element should be either a short hostname or an FQHN
+                                        $is_fqhn = &f__fqhncheck( $elements[2] );
+                                        $is_shn  = &f__sncheck( $elements[2] );
+
+                                        if (( $is_fqdn == 1 ) || ( $is_shn == 1 )) {
+                                            $valid_name = 1;
+                                        }
+
+                                        if ( $valid_name == 1 ) {
+                                            $msg = "        Adding validated MX record entry: \"$record\"";
+                                            $write_record = 1;
+                                        } else {
+                                            $err_msg = "            ERROR:  Invalid hostname in record entry: \"$record\"";
+                                        }
+
+                                    } else {
+                                        $err_msg = "            ERROR:  Invalid IP address in record entry: \"$record\"";
+                                    }
+
+                                } else {
+                                    $err_msg = "            ERROR:  Invalid domain name in record entry: \"$record\"";
+                                }
+
+                            } else {
+                                $err_msg = "            ERROR:  Invalid location definition in record entry: \"$record\"";
+                            }
+
+                        } else {
+                            $err_msg = "            ERROR:  Malformed record entry: \"$record\"";
+                        }
+
+                    # PTR records (^)
+                    # Format: ^<arpa fqdn>:<fqhn>:ttl:timestamp:<2 letter location code>
+                    } elsif ( $first_character eq "\^" ) {
+                        my $max_parts      = 5;
+                        my $min_parts      = 2;
+                        my $valid_loc      = 0;
+                        my $is_fqhn        = 0;
+                        my $valid_arpafqdn = 0;
+
+                        if (( $part_count >= $min_parts ) && ( $part_count <= $max_parts )) {
+                            my $this_loc  = $elements[$max_parts-1];
+
+                            # Make sure the optional location code is properly defined if present
+                            if ( $this_loc eq "" ) {
+                                $valid_loc = 1;
+                            } else {
+                                $valid_loc = &f__loccheck( \@loc_records, $this_loc );
+                            }
+
+                            if ( $valid_loc == 1 ) {
+                                # The second element should be either a short hostname or an FQHN
+                                $is_fqhn = &f__fqhncheck( $elements[1] );
+
+                                if ( $is_fqhn == 1 ) {
+                                    # The first element should be an arpa fqdn
+                                    $valid_arpafqdn = &f__arpafqdncheck( $arpa_regex, $elements[0] );
+
+                                    if ( $valid_arpafqdn == 1 ) {
+                                        $msg = "        Adding validated PTR record entry: \"$record\"";
+                                        $write_record = 1;
+                                    } else {
+                                        $err_msg = "            ERROR:  Invalid ARPA FQDN in record entry: \"$record\"";
+                                    }
+
+                                } else {
+                                    $err_msg = "            ERROR:  Invalid hostname in record entry: \"$record\"";
+                                }
+
+                            } else {
+                                $err_msg = "            ERROR:  Invalid location definition in record entry: \"$record\"";
+                            }
+
+                        } else {
+                            $err_msg = "            ERROR:  Malformed record entry: \"$record\"";
+                        }
+
+                    # A + PTR records (=), or A records (+)
+                    # Format:  [=|+]<fqdn>:<ip address>:ttl:timestamp:<2 letter location code>
+                    } elsif ( $first_character =~ /[\=,\+]/ ) {
+                        my $is_fqhn      = 0;
+                        my $is_ipaddress = 0;
+                        my $max_parts    = 5;
+                        my $min_parts    = 2;
+
+                        if (( $part_count >= $min_parts ) && ( $part_count <= $max_parts )) {
+                            my $valid_loc = 0;
+                            my $this_loc  = $elements[$max_parts-1];
+
+                            # Make sure the optional location code is properly defined if present
+                            if ( $this_loc eq "" ) {
+                                $valid_loc = 1;
+                            } else {
+                                $valid_loc = &f__loccheck( \@loc_records, $this_loc );
+                            }
+
+                            if ( $valid_loc == 1 ) {
+                                # Check FQHN validity of element 0
+                                my $this_arg = $elements[0]; 
+                                $this_arg =~ s/^$first_character//g;
+                                $is_fqhn  = &f__fqhncheck( $this_arg );
+
+                                # Check IP address validity of element 1
+                                $is_ipaddress = &f__ipcheck( $elements[1] );
+
+                                if (( $is_fqhn == 1 ) && ( $is_ipaddress == 1 )) {
+                                    $msg = "        Adding validated A+PTR/A record entry: \"$record\"";
+                                    $write_record = 1;
+                                } else {
+                                    $err_msg = "            ERROR:  Invalid IP address in record entry: \"$record\"";
+                                }
+
+                            } else {
+                                $err_msg = "            ERROR:  Invalid location definition in record entry: \"$record\"";
+                            }
+
+                        } else {
+                            $err_msg = "            ERROR:  Malformed record entry: \"$record\"";
+                        }
+                     
+                    # CNAME record
+                    # Format:  C<fqdn>:<fqhn>:ttl:timestamp:<2 letter location code>
+                    } elsif ( $first_character eq "C" ) {
+                        my $is_fqhn1  = 0;
+                        my $is_fqhn2  = 0;
+                        my $max_parts = 5;
+                        my $min_parts = 2;
+
+                        if (( $part_count >= $min_parts ) && ( $part_count <= $max_parts )) {
+                            my $valid_loc = 0;
+                            my $this_loc  = $elements[$max_parts-1];
+
+                            # Make sure the optional location code is properly defined if present
+                            if ( $this_loc eq "" ) {
+                                $valid_loc = 1;
+                            } else {
+                                $valid_loc = &f__loccheck( \@loc_records, $this_loc );
+                            }
+
+                            if ( $valid_loc == 1 ) {
+                                # Check FQDN validity of element 0
+                                my $this_arg = $elements[0];
+                                $this_arg =~ s/^$first_character//g;
+                                $is_fqhn1 = &f__fqhncheck( $this_arg );
+        
+                                # Check FQDN validity of element 1
+                                $is_fqhn2 = &f__fqhncheck( $elements[1] );
+        
+                                if (( $is_fqhn1 == 1 ) && ( $is_fqhn2 == 1 )) {
+                                    $msg = "        Adding validated CNAME record entry: \"$record\"";
+                                    $write_record = 1;
+                                } else {
+                                    $err_msg = "            ERROR:  Malformed FQDN definitions in record entry: \"$record\"";
+                                }
+
+                            } else {
+                                $err_msg = "            ERROR:  Invalid location definitions in record entry: \"$record\"";
+                            }
+
+                        } else {
+                            $err_msg = "            ERROR:  Malformed record entry: \"$record\"";
+                        }
+
+                    }
+
+                }
+
+                if ( $msg ne "" ) {
+                    print "$msg\n";
+                }
+
+                if ( $write_record == 1 ) {
+                    print TINYDNS_DATA "$record\n";
+                }
+
+                if ( $err_msg ne "" ) {
+                    print "$err_msg\n"; 
+                    $return_code++;
+                }
+
+            }
+
+            close( TINYDNS_DATA );
+        } else {
+            $return_code++;
+        }
+
+    } else {
+        $return_code++;
+    }
+
+    return $return_code;
+}
+
+#-------------------------------------------------------------------------------
+
+# NAME: Function f__dnsmasq
+# WHAT: Convert source DNS data to DNSMasq data format
+#
+##f__dnsmasq() {
+##    return_code=${SUCCESS}
+##    echo "    Conversion to DNSMasq data format"
+##
+##    return ${return_code}
+##}
+
+#-------------------------------------------------------------------------------
+
+# NAME: Function f__bind
+# WHAT: Convert source DNS data to BIND data format
+#
+##f__bind() {
+##    return_code=${SUCCESS}
+##    echo "    Conversion to BIND conf file format"
+##
+##    return ${return_code}
+##}
+
+#-------------------------------------------------------------------------------
+
+################################################################################
+# MAIN
+################################################################################
+
+# WHAT: Check our arguments
+# WHY:  Operation depends on it
+#
+if ( $exit_code == $SUCCESS ) {
+    my $src_dir;
+    my ( $my_name, $bin_dir, $discard ) = fileparse( $0 );
+
+    if ( $bin_dir eq "./" ) {
+        $src_dir = "../";
+    } else {
+        $bin_dir =~ s/\/$//g;
+        ( $discard, $src_dir, $discard ) = fileparse( $bin_dir );
+    }
+
+    $src_dir =~ s/\/$//g;
+
+    if ( -e "$src_dir/records" ) {
+        
+        # TODO - Fix this part
+        # Source a config file if present
+        #if ( -e "$src_dir/bin/$my_name.conf" ) {
+        #    print "Found conf file: \"$src_dir/bin/$my_name.conf\"\n";
+        #    chomp( my @config = read_file( "$src_dir/bin/$my_name.conf" ));
+
+        #    foreach ( @config ) {
+        #        print "config line is: $_\n";
+        #        my ( $key, $value ) = split( /=/, $_ );
+        #        eval( "my \$$key = $value\;" );
+        #        die $@ if ($@);
+        #        print "$key = $value\n";
+        #    }
+
+        #}
+
+        foreach my $arg ( @ARGV ) {
+
+            if ( $arg eq "tinydns" ) {
+                &f__tinydns ( $src_dir );
+            } elsif ( $arg eq "dnsmasq" ) {
+                &f__dnsmasq;
+            } elsif ( $arg eq "bind" ) {
+                &f__bind;
+            } else {
+                $err_msg = "Unknown argument: \"$arg\"\n"; 
+                $exit_code++;
+            }
+
+            $exit_code += $?;
+        }
+
+    } else {
+        $err_msg = "Cannot locate file \"records\" in source directory \"$src_dir\"";
+        $exit_code = $ERROR;
+    }
+
+}
+
+# WHAT: Complain if necessary and exit
+# WHY:  Success or failure, we are through!
+#
+if ( $exit_code != $SUCCESS ) {
+
+    if ( $err_msg ne "" ) {
+        print "\n";
+        print "    ERROR: $err_msg ... processing halted\n";
+        print "\n";
+        print "    Usage: $USAGE\n";
+        print "\n";
+    }
+
+}
+
+exit $exit_code;

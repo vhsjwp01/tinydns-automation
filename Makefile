@@ -1,4 +1,4 @@
-PROG = bin/source2dns.sh
+PROG = bin/source2dns
 DEP = records
 
 tinydns : ${DEP}
@@ -7,7 +7,7 @@ tinydns : ${DEP}
 dnsmasq : ${DEP}
 	${PROG} $@
 
-bind : ${DEP}
+bind    : ${DEP}
 	${PROG} $@
 
 #tinydns-test : <dependencies ?? => docker?>
