@@ -47,7 +47,7 @@ sub f__myipaddress {
         close( COMMAND );
 
         if ( $this_ip ne "" ) {
-            $command = "host $this_ip $this_ip 2> /dev/null | egrep -c \"domain name pointer\"";
+            $command = "netstat -tlpn | awk '{print \$4}' | egrep -c \"\^$this_ip:53\$\"";
             open( COMMAND, "$command |" );
             chomp( $is_dns_iface = <COMMAND> );
             close( COMMAND );
