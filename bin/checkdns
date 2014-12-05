@@ -1,0 +1,204 @@
+#!/usr/bin/perl
+use strict;
+use File::Slurp;
+use File::Basename;
+
+################################################################################
+# CONSTANTS
+################################################################################
+
+$ENV{'PATH'}    = "/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin";
+$ENV{'TERM'}    = "vt100";
+
+my $SUCCESS     = 0;
+my $ERROR       = 1;
+
+my $USAGE       = "$0 < tinydns | dnsmasq | bind>";
+
+################################################################################
+# VARIABLES
+################################################################################
+
+my $exit_code   = $SUCCESS;
+my $err_msg     = "";
+
+################################################################################
+# SUBROUTINES
+################################################################################
+
+# WHAT: Subroutine f__myipaddress
+# WHY:  Determine this nodes IP address - assumed to be the DNS server
+#
+sub f__myipaddress {
+    my $return_code  = $SUCCESS;
+    my $is_dns_iface = 0;
+    my $return_value = "";
+
+    my $command      = "netstat -i 2> /dev/null | egrep -vi \"^kernel|^iface|^name|^lo\" | awk '{print \$1}' | sort -u | sed -e 's/[^a-zA-Z0-9]//g'";
+
+    open( COMMAND, "$command |" );
+    chomp( my @interfaces = <COMMAND> );
+    close( COMMAND );
+
+    foreach my $interface ( @interfaces ) {
+        $command = "ifconfig $interface 2> /dev/null | egrep -i \"inet*.*mask\" | awk '{print \$2}' | awk -F':' '{print \$NF}'";
+        open( COMMAND, "$command |" );
+        chomp( my $this_ip = <COMMAND> );
+        close( COMMAND );
+
+        if ( $this_ip ne "" ) {
+            $command = "netstat -tlpn | awk '{print \$4}' | egrep -c \"\^$this_ip:53\$\"";
+            open( COMMAND, "$command |" );
+            chomp( $is_dns_iface = <COMMAND> );
+            close( COMMAND );
+
+            if ( $is_dns_iface == 1 ) {
+                $return_value = $this_ip;
+                last;
+            }
+
+        }
+
+    }
+
+    return $return_value;
+} 
+
+#-------------------------------------------------------------------------------
+
+# WHAT: Subroutine f__tinydns
+# WHY:  Test the contents of tinydns.data file
+#
+sub f__tinydns {
+    my $return_code  = 0;
+    my $data_dir     = $_[0];
+    my $data_file    = "tinydns.data";
+    my $dns_server   = "";
+    my $is_valid     = 0;
+
+    # Test forward and reverse for all A and PTR records
+    $dns_server = &f__myipaddress;
+
+    if ( $dns_server ne "" ) {
+        print "DNS server: $dns_server\n";
+
+        # Gather Records
+        my $command = "egrep \"^=|^\\+|^\\^\" \"$data_dir/$data_file\" 2> /dev/null | awk -F':' '{print \$2}'";
+
+        open( COMMAND, "$command |" );
+        chomp( my @elements = <COMMAND> );
+        close( COMMAND );
+
+        foreach my $element ( @elements ) {
+
+            if ( $element ne "127.0.0.1" ) {
+                $command = "host $element $dns_server 2> /dev/null | egrep \"domain name pointer|has address\" | wc -l | awk '{print \$1}'";
+                open( COMMAND, "$command |" );
+                chomp( $is_valid = <COMMAND> );
+
+                if ( $is_valid == 0 ) {
+                    print "    FAILED: ";
+                    $return_code++;
+                } else {
+                    print "    PASSED:     ";
+                }
+
+                print "$element\n";
+            }
+
+        }
+
+        $command = "egrep \"^=|^\\+|^\\^|^C\" \"$data_dir/$data_file\" 2> /dev/null | awk -F':' '{print \$1}'";
+
+        open( COMMAND, "$command |" );
+        chomp( my @elements = <COMMAND> );
+        close( COMMAND );
+
+        foreach my $element ( @elements ) {
+            my $first_character = substr( $element, 0, 1 );
+            $element =~ s/^$first_character//g;
+
+            if ( $element ne "127.0.0.1" ) {
+                $command = "host $element $dns_server 2> /dev/null | egrep \"domain name pointer|has address|is an alias\" | wc -l | awk '{print \$1}'";
+                open( COMMAND, "$command |" );
+                chomp( $is_valid = <COMMAND> );
+
+                if ( $is_valid == 0 ) {
+                    print "        FAILED: ";
+                    $return_code++;
+                } else {
+                    print "    PASSED:     ";
+                }
+
+                print "$element\n";
+            }
+
+        }
+
+    } else {
+        $return_code++;
+    }
+    
+    return $return_code;
+}
+
+################################################################################
+# MAIN
+################################################################################
+
+# WHAT: Check our arguments
+# WHY:  Operation depends on it
+#
+if ( $exit_code == $SUCCESS ) {
+    my $src_dir;
+    my ( $my_name, $bin_dir, $discard ) = fileparse( $0 );
+
+    if ( $bin_dir eq "./" ) {
+        $src_dir = "../";
+    } else {
+        $bin_dir =~ s/\/$//g;
+        ( $discard, $src_dir, $discard ) = fileparse( $bin_dir );
+    }
+
+    $src_dir =~ s/\/$//g;
+
+    if ( -e "$src_dir/records" ) {
+
+        foreach my $arg ( @ARGV ) {
+
+            if ( $arg eq "tinydns" ) {
+                $exit_code = &f__tinydns( $src_dir );
+            } elsif ( $arg eq "dnsmasq" ) {
+                $exit_code = &f__dnsmasq( $src_dir );
+            } elsif ( $arg eq "bind" ) {
+                $exit_code = &f__bind( $src_dir );
+            } else {
+                $err_msg = "Unknown argument: \"$arg\"\n";
+                $exit_code++;
+            }
+
+        }
+
+    } else {
+        $err_msg = "Cannot locate file \"records\" in source directory \"$src_dir\"";
+        $exit_code = $ERROR;
+    }
+
+}
+
+# WHAT: Complain if necessary and exit
+# WHY:  Success or failure, either way we are through!
+#
+if ( $exit_code != $SUCCESS ) {
+
+    if ( $err_msg ne "" ) {
+        print "\n";
+        print "    ERROR: $err_msg ... processing halted\n";
+        print "\n";
+        print "    Usage: $USAGE\n";
+        print "\n";
+    }
+
+}
+
+exit $exit_code;
