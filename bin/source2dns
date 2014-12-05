@@ -274,6 +274,7 @@ sub f__tinydns {
             foreach ( @all_records ) {
                 my $this_record = $_;
 
+                # Ignore comments and empty lines
                 if ( $this_record !~ /^#|^.$/ ) {
 
                     if ( $this_record =~ /^\%/ ) {
