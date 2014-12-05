@@ -1,5 +1,5 @@
 # DNS repo - An R&D project for evaluating the use of Stash/Bamboo/mcollective to manage DNS services
-## DNS File Format (TinyDNS notation)
+## DNS File Format (TinyDNS poof)
 ### A, NS record combined
 `&fqdn:ip:x:ttl:timestamp:lo`
 
