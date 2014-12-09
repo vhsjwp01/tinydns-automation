@@ -275,7 +275,7 @@ sub f__tinydns {
                 my $this_record = $_;
 
                 # Ignore comments and empty lines
-                if ( $this_record !~ /^#|^.$/ ) {
+                if ( $this_record !~ /^#|^$/ ) {
 
                     if ( $this_record =~ /^\%/ ) {
                         push( @loc_records, $this_record );
