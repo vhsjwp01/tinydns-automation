@@ -12,10 +12,7 @@ Cpxe.lab.ingram.io:lviclabinfrap01.lab.ingram.io
 #-------------------------------------------------------------+
 # ADD NEW DNS RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
 #-------------------------------------------------------------+
-
-
-
-
+=lviclabcip01.lab.ingram.io:10.50.3.51
 
 #-------------------------------------------------------------------------------
 ################################################################################
@@ -24,6 +21,13 @@ Cpxe.lab.ingram.io:lviclabinfrap01.lab.ingram.io
 #-------------------------------------------------------------------------------
 # Tiny DNS syntax:
 # 
+# -----------------
+# A+PTR Records:
+# -----------------
+# =button.panic.mil:1.8.7.108
+#	creates an A record showing 1.8.7.108 as the IP address of button.panic.mil, 
+#	and a PTR record showing button.panic.mil as the name of 108.7.8.1.in-addr.arpa.
+#
 # -----------------
 # NS+A+SOA Records:
 # -----------------
@@ -51,13 +55,6 @@ Cpxe.lab.ingram.io:lviclabinfrap01.lab.ingram.io
 # &serious.panic.mil:1.8.248.7:ns7.panic.mil
 #	creates an NS record showing ns7.panic.mil as a name server for serious.panic.mil,
 #	and an A record showing 1.8.248.7 as the IP address of ns7.panic.mil.
-#
-# -----------------
-# A+PTR Records:
-# -----------------
-# =button.panic.mil:1.8.7.108
-#	creates an A record showing 1.8.7.108 as the IP address of button.panic.mil, 
-#	and a PTR record showing button.panic.mil as the name of 108.7.8.1.in-addr.arpa.
 #
 # -----------------
 # A Records:
