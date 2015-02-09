@@ -12,9 +12,9 @@ Cpxe.lab.ingram.io:lviclabinfrap01.lab.ingram.io
 #-------------------------------------------------------------+
 # ADD NEW DNS RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
 #-------------------------------------------------------------+
-=lviclabgluster01.lab.ingram.io:10.50.3.215
-=lviclabgluster02.lab.ingram.io:10.50.3.217
-=lviclabgluster03.lab.ingram.io:10.50.3.218
+=lviclabfstest01.lab.ingram.io:10.50.3.215
+=lviclabfstest02.lab.ingram.io:10.50.3.217
+=lviclabfstest03.lab.ingram.io:10.50.3.218
 
 #-------------------------------------------------------------------------------
 ################################################################################
