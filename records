@@ -7,14 +7,19 @@
 =lviclabinfrap01.lab.ingram.io:10.50.3.2
 =lviclabxenp02.lab.ingram.io:10.50.3.3
 =lviclabxenp03.lab.ingram.io:10.50.3.4
+
+#------------------------+
+# DEFINE THE CNAMES HERE |
+#------------------------+
 Cdns.lab.ingram.io:lviclabinfrap01.lab.ingram.io:::
 Cdhcp.lab.ingram.io:lviclabinfrap01.lab.ingram.io
 Cpxe.lab.ingram.io:lviclabinfrap01.lab.ingram.io
+Cntp.lab.ingram.io:lviclabinfrap01.lab.ingram.io
 Clviclabxenp01.lab.ingram.io:lviclabxenp01.ingramcontent.com
 
-#-------------------------------------------------------------+
-# ADD NEW DNS RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
-#-------------------------------------------------------------+
+#-----------------------------------------------------------+
+# ADD NEW A RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
+#-----------------------------------------------------------+
 =sl6-test-01.lab.ingram.io:10.50.3.100
 =ol6-test-01.lab.ingram.io:10.50.3.110
 =cl6-test-01.lab.ingram.io:10.50.3.115
