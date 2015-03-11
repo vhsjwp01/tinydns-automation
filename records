@@ -16,6 +16,7 @@ Cdhcp.lab.ingram.io:lviclabinfrap01.lab.ingram.io
 Cpxe.lab.ingram.io:lviclabinfrap01.lab.ingram.io
 Cntp.lab.ingram.io:lviclabinfrap01.lab.ingram.io
 Clviclabxenp01.lab.ingram.io:lviclabxenp01.ingramcontent.com
+Capt.lab.ingram.io:lviclabapt01.lab.ingram.io
 
 #-----------------------------------------------------------+
 # ADD NEW A RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
@@ -32,6 +33,7 @@ Clviclabxenp01.lab.ingram.io:lviclabxenp01.ingramcontent.com
 =lviclabfstest02.lab.ingram.io:10.50.3.217
 =lviclabfstest03.lab.ingram.io:10.50.3.218
 =lv-1-ids02.lab.ingram.io:10.50.3.230
+=lviclabapt01.lab.ingram.io:10.50.3.231
 
 #-------------------------------------------------------------------------------
 ################################################################################
