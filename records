@@ -19,6 +19,7 @@ Clviclabxenp01.lab.ingram.io:lviclabxenp01.ingramcontent.com
 Capt.lab.ingram.io:lviclabapt01.lab.ingram.io
 Citpong.lab.ingram.io:lviclabapt01.lab.ingram.io
 Cxoa.lab.ingram.io:lviclabxoa01.lab.ingram.io
+Crdp.lab.ingram.io:lviclabrdp01.lab.ingram.io
 
 #-----------------------------------------------------------+
 # ADD NEW A RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
@@ -30,6 +31,7 @@ Cxoa.lab.ingram.io:lviclabxoa01.lab.ingram.io
 =sl7-test-01.lab.ingram.io:10.50.3.120
 =ol7-test-01.lab.ingram.io:10.50.3.125
 =cl7-test-01.lab.ingram.io:10.50.3.130
+=lviclabrdp01.lab.ingram.io:10.50.3.203
 =lviclabxoa01.lab.ingram.io:10.50.3.212
 =lviclabfsclient.lab.ingram.io:10.50.3.213
 =lviclabfsadmin.lab.ingram.io:10.50.3.214
