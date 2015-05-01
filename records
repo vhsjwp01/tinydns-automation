@@ -42,6 +42,7 @@ Crdp.lab.ingram.io:lviclabrdp01.lab.ingram.io
 =lviclabapt01.lab.ingram.io:10.50.3.231
 =lviclabloadbal01.lab.ingram.io:10.50.3.232
 =lviclabloadbal02.lab.ingram.io:10.50.3.233
+=lviclabloadbal03.lab.ingram.io:10.50.3.234
 
 #-------------------------------------------------------------------------------
 ################################################################################
