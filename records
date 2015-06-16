@@ -44,6 +44,7 @@ Crdp.lab.ingram.io:lviclabrdp01.lab.ingram.io
 =lviclabloadbal02.lab.ingram.io:10.50.3.233
 =lviclabloadbal03.lab.ingram.io:10.50.3.234
 =lviclabloadbal04.lab.ingram.io:10.50.3.235
+=lvicelkt05.lab.ingram.io:10.50.3.132
 
 #-------------------------------------------------------------+
 # ADD NEW VIP RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
