@@ -24,11 +24,6 @@ Crdp.lab.ingram.io:lviclabrdp01.lab.ingram.io
 #-----------------------------------------------------------+
 # ADD NEW A RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
 #-----------------------------------------------------------+
-#=labvmhostt01.lab.ingram.io:10.50.3.180
-#=labvmhostt02.lab.ingram.io:10.50.3.189
-#=labvmfst01.lab.ingram.io:10.50.3.188
-#=labvmfst02.lab.ingram.io:10.50.3.192
-#=sl6-test-01.lab.ingram.io:10.50.3.100
 =labvmhostt01.lab.ingram.io:10.50.3.100
 =labvmhostt02.lab.ingram.io:10.50.3.101
 =labvmfst01.lab.ingram.io:10.50.3.102
