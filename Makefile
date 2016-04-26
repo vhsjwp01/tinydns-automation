@@ -17,7 +17,7 @@ tinydns : ${DEP}
 
 tinydns-test : ${TESTDEP}
 	cp ${TESTDEP} ${DNSDATADIR}
-	echo "cd ${DNSDATADIR} && ${DNSDATACMD} ${DNSDATA}" | sh
+	cd ${DNSDATADIR} && perl -MFile::Slurp -e ';' && perl -MFile::Basename -e ';' && ${DNSDATACMD} ${DNSDATA}
 	service dnscache restart
 	service tinydns restart
 	${TESTPROG} tinydns
