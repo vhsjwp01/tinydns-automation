@@ -1,3 +1,4 @@
+.*.swp
 tinydns.data
 named*.conf
 named*.zone
