@@ -33,7 +33,8 @@ Crdp.lab.ingram.io:lviclabrdp01.lab.ingram.io
 =labvmfst01.lab.ingram.io:10.50.3.102
 =labvmfst02.lab.ingram.io:10.50.3.103
 =labovirt.lab.ingram.io:10.50.3.104
-=ol6-test-01.lab.ingram.io:10.50.3.110
+=labvmhostt01-mgmt.lab.ingram.io:10.50.3.109
+=labvmhostt02-mgmt.lab.ingram.io:10.50.3.110
 =cl6-test-01.lab.ingram.io:10.50.3.115
 =cl6-test-02.lab.ingram.io:10.50.3.116
 =sl7-test-01.lab.ingram.io:10.50.3.120
