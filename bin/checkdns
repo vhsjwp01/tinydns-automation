@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 use strict;
 use File::Slurp;
 use File::Basename;
@@ -111,7 +111,7 @@ sub f__tinydns {
         $command = "egrep \"^=|^\\+|^\\^|^C\" \"$data_dir/$data_file\" 2> /dev/null | awk -F':' '{print \$1}'";
 
         open( COMMAND, "$command |" );
-        chomp( my @elements = <COMMAND> );
+        chomp( @elements = <COMMAND> );
         close( COMMAND );
 
         foreach my $element ( @elements ) {
@@ -150,37 +150,62 @@ sub f__tinydns {
 # WHY:  Operation depends on it
 #
 if ( $exit_code == $SUCCESS ) {
-    my $src_dir;
-    my ( $my_name, $bin_dir, $discard ) = fileparse( $0 );
 
-    if ( $bin_dir eq "./" ) {
-        $src_dir = "../";
-    } else {
-        $bin_dir =~ s/\/$//g;
-        ( $discard, $src_dir, $discard ) = fileparse( $bin_dir );
-    }
+    if ( $ARGV[0] ) {
+        my $src_dir;
+        my ( $my_name, $bin_dir, $discard ) = fileparse( $0 );
 
-    $src_dir =~ s/\/$//g;
+        if ( $bin_dir eq "./" ) {
+            $src_dir = "../";
+        } else {
+            $bin_dir =~ s/\/$//g;
+            ( $discard, $src_dir, $discard ) = fileparse( $bin_dir );
+        }
 
-    if ( -e "$src_dir/records" ) {
+        $src_dir =~ s/\/$//g;
 
-        foreach my $arg ( @ARGV ) {
+        if ( -e "$src_dir/records" ) {
 
-            if ( $arg eq "tinydns" ) {
-                $exit_code = &f__tinydns( $src_dir );
-            } elsif ( $arg eq "dnsmasq" ) {
-                $exit_code = &f__dnsmasq( $src_dir );
-            } elsif ( $arg eq "bind" ) {
-                $exit_code = &f__bind( $src_dir );
-            } else {
-                $err_msg = "Unknown argument: \"$arg\"\n";
-                $exit_code++;
+            foreach my $arg ( @ARGV ) {
+
+                if ( $arg eq "tinydns" ) {
+                    &f__tinydns( $src_dir );
+                    $exit_code = $?;
+
+                    if ( $exit_code != $SUCCESS ) {
+                        $err_msg = "TinyDNS syntax check failed";
+                    }
+
+                } elsif ( $arg eq "dnsmasq" ) {
+                    &f__dnsmasq( $src_dir );
+                    $exit_code = $?;
+
+                    if ( $exit_code != $SUCCESS ) {
+                        $err_msg = "DNSMasq syntax check failed";
+                    }
+
+                } elsif ( $arg eq "bind" ) {
+                    &f__bind( $src_dir );
+                    $exit_code = $?;
+
+                    if ( $exit_code != $SUCCESS ) {
+                        $err_msg = "Bind syntax check failed";
+                    }
+
+                } else {
+                    $err_msg = "Unknown argument: \"$arg\"\n";
+                    $exit_code++;
+                }
+
             }
 
+        } else {
+            $err_msg = "Cannot locate file \"records\" in source directory \"$src_dir\"";
+            $exit_code = $ERROR;
         }
 
     } else {
-        $err_msg = "Cannot locate file \"records\" in source directory \"$src_dir\"";
+        $err_msg = "No argument provided";
         $exit_code = $ERROR;
     }
 
