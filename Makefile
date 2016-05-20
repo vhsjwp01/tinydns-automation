@@ -5,6 +5,7 @@ TESTDEP    = tinydns.data
 DNSDATACMD = tinydns-data
 DNSDATADIR = /etc/ndjbdns
 DNSDATA    = data
+DHCPDPROG  = bin/source2dhcpd
 
 tinydns : ${DEP}
 	${PROG} $@
@@ -21,6 +22,9 @@ tinydns-test : ${TESTDEP}
 	service dnscache restart
 	service tinydns restart
 	${TESTPROG} tinydns
+
+dhcpd : ${DEP}
+	${DHCPDPROG}
 
 #dnsmasq-test : <dependencies ?? => docker?>
 #       <program to run> <arguments>

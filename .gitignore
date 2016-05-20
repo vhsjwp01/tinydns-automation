@@ -3,3 +3,4 @@ tinydns.data
 named*.conf
 named*.zone
 dnsmasq.conf
+dhcpd.conf
