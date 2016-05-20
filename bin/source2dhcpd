@@ -65,7 +65,7 @@ if [ ${exit_code} -eq ${SUCCESS} ]; then
                     short_host_name=$(echo "${host_name}" | awk -F'.' '{print $1}')
 
                     echo "    Adding DHCPD entry for ${short_host_name}"
-                    echo "    host ${short_host_name}"                      >> "${dhcpd_conf_file}"
+                    echo "    host ${short_host_name} {"                    >> "${dhcpd_conf_file}"
                     echo "        hardware ethernet ${mac_address_entry};"  >> "${dhcpd_conf_file}"
                     echo "        fixed-address ${host_name};"              >> "${dhcpd_conf_file}"
                     echo "        option host-name \"${short_host_name}\";" >> "${dhcpd_conf_file}"
