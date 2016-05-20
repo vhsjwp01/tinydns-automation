@@ -173,7 +173,7 @@ if ( $exit_code == $SUCCESS ) {
                     $exit_code = $?;
 
                     if ( $exit_code != $SUCCESS ) {
-                        $err_msg = "TinyDNS syntax check failed";
+                        $err_msg = "TinyDNS logical check failed";
                     }
 
                 } elsif ( $arg eq "dnsmasq" ) {
@@ -181,7 +181,7 @@ if ( $exit_code == $SUCCESS ) {
                     $exit_code = $?;
 
                     if ( $exit_code != $SUCCESS ) {
-                        $err_msg = "DNSMasq syntax check failed";
+                        $err_msg = "DNSMasq logical check failed";
                     }
 
                 } elsif ( $arg eq "bind" ) {
@@ -189,7 +189,7 @@ if ( $exit_code == $SUCCESS ) {
                     $exit_code = $?;
 
                     if ( $exit_code != $SUCCESS ) {
-                        $err_msg = "Bind syntax check failed";
+                        $err_msg = "BIND logical check failed";
                     }
 
                 } else {
