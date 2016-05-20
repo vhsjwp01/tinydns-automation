@@ -59,7 +59,7 @@ sub f__arpafqdncheck {
 #-------------------------------------------------------------------------------
 
 # NAME: Function f__emailcheck
-# WHAT: Make sure a passed argument is a properly formaatted email address
+# WHAT: Make sure a passed argument is a properly formatted email address
 #
 sub f__emailcheck {
     my $return_code  = $SUCCESS;
@@ -238,7 +238,7 @@ sub f__tinydns {
     chdir( $data_dir );
     system( "rm -f \"$data_file\" >/dev/null 2>\&1" );
 
-    print "    Conversion to TinyDNS data format: $data_dir/$data_file\n";
+    print "    Converting $data_dir/$data_file to TinyDNS data format\n";
 
     my ( $network, $netmask ) = split( /\// , $ENV{'subnet_range'} );
     my ( $one, $two, $three, $four ) = split( /\./, $network );
@@ -272,7 +272,8 @@ sub f__tinydns {
             chomp( my @all_records = read_file( "records" ));
 
             foreach ( @all_records ) {
-                my $this_record = $_;
+                my @these_records = split( /\ /, $_ );
+                my $this_record = $these_records[0];
 
                 # Ignore comments and empty lines
                 if ( $this_record !~ /^#|^$/ ) {
@@ -332,7 +333,7 @@ sub f__tinydns {
                 $write_record = 0;
 
                 if ( $record ne "" ) {
-                    my @elements        = split(/:/, $record );
+                    my @elements        = split( /:/, $record );
                     my $first_character = substr( $elements[0], 0, 1 );
                     my $part_count      = scalar @elements;
 
@@ -807,11 +808,29 @@ if ( $exit_code == $SUCCESS ) {
         foreach my $arg ( @ARGV ) {
 
             if ( $arg eq "tinydns" ) {
-                $exit_code = &f__tinydns( $src_dir );
+                &f__tinydns( $src_dir );
+                $exit_code = $?;
+
+                if ( $exit_code != $SUCCESS ) {
+                    $err_msg = "TinyDNS syntax check failed";
+                }
+
             } elsif ( $arg eq "dnsmasq" ) {
-                $exit_code = &f__dnsmasq( $src_dir );
+                &f__dnsmasq( $src_dir );
+                $exit_code = $?;
+
+                if ( $exit_code != $SUCCESS ) {
+                    $err_msg = "DNSMasq syntax check failed";
+                }
+
             } elsif ( $arg eq "bind" ) {
-                $exit_code = &f__bind( $src_dir );
+                &f__bind( $src_dir );
+                $exit_code = $?;
+
+                if ( $exit_code != $SUCCESS ) {
+                    $err_msg = "BIND syntax check failed";
+                }
+
             } else {
                 $err_msg = "Unknown argument: \"$arg\"\n"; 
                 $exit_code++;
