@@ -1,0 +1,24 @@
+#
+# DHCP Server Configuration file.
+#   see /usr/share/doc/dhcp*/dhcpd.conf.sample
+#   see 'man 5 dhcpd.conf'
+#
+
+subnet 10.50.3.0 netmask 255.255.255.0 {
+    allow bootp;
+    allow booting;
+    option routers 10.50.3.1;
+    option domain-name "lab.ingram.io";
+    option domain-name-servers 10.50.3.2;
+    option domain-search "lab.ingram.io", "ingramcontent.com", "ingrambook.com", "lightningsource.com";
+    option subnet-mask 255.255.255.0;
+    default-lease-time 1800;
+    max-lease-time 7200;
+    range 10.50.3.100 10.50.3.223;
+
+    # bootp stuff
+    range dynamic-bootp 10.50.3.224 10.50.3.254;
+    filename "pxelinux.0";
+    next-server 10.50.3.2;
+
+

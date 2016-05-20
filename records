@@ -5,8 +5,8 @@
 .3.50.10.in-addr.arpa:127.0.0.1:lab.ingram.io
 =lviclabrtrp01.lab.ingram.io:10.50.3.1
 =lviclabinfrap01.lab.ingram.io:10.50.3.2
-=lviclabxenp02.lab.ingram.io:10.50.3.3
-=lviclabxenp03.lab.ingram.io:10.50.3.4
+=lviclabxenp02.lab.ingram.io:10.50.3.3 00:26:55:2F:B3:66
+=lviclabxenp03.lab.ingram.io:10.50.3.4 00:26:55:2A:BF:28
 
 #------------------------+
 # DEFINE THE CNAMES HERE |

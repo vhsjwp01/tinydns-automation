@@ -1,0 +1,100 @@
+#!/bin/bash
+#set -x
+
+PATH="/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin"
+TERM="vt100"
+export TERM PATH
+
+SUCCESS=0
+ERROR=1
+
+err_msg=""
+exit_code=${SUCCESS}
+
+# WHAT: Figure out where we are in the file system
+# WHY:  Needed later
+#
+if [ ${exit_code} -eq ${SUCCESS} ]; then
+    my_dirname=$(dirname "${0}")
+    this_dir=$(cd "${my_dirname}" && pwd)
+
+    if [ -e "${this_dir}/../records" ]; then
+        BASE_DIR=$(cd "${this_dir}"/../ && pwd)
+    else
+        err_msg="Could not determine position in file system"
+        exit_code=${ERROR}
+    fi
+
+fi
+
+# WHAT: Find records with MAC Addresses in them
+# WHY:  The reason we are here
+#
+if [ ${exit_code} -eq ${SUCCESS} ]; then
+    dhcpd_conf_file="${BASE_DIR}/dhcpd.conf"
+    dhcpd_conf_template="${BASE_DIR}/TEMPLATES/dhcpd.conf.template"
+
+    # Get rid of any residual dhcpd.conf file
+    if [ -e "${dhcpd_conf_file}" ]; then
+        echo "Removing residual \"${dhcpd_conf_file}\""
+        rm -f "${dhcpd_conf_file}"
+    fi
+
+    for record in $(awk '{print $0}' "${BASE_DIR}/records" | egrep -v "^#|^$" | sed -e 's?\ ?::zzQc::?g') ; do
+        real_record=$(echo "${record}" | sed -e 's?::zzQc::?\ ?g')
+        let record_count=$(echo "${real_record}" | wc -w | awk '{print $1}')
+
+        if [ ${record_count} -eq 2 ]; then
+
+            if [ ! -e "${dhcpd_conf_file}" ]; then
+                echo "Seeding \"${dhcpd_conf_file}\" from \"${dhcpd_conf_template}\""
+                cp "${dhcpd_conf_template}" "${dhcpd_conf_file}"
+            fi
+
+            dns_entry=$(echo "${real_record}" | awk '{print $1}')
+            mac_address_entry=$(echo "${real_record}" | awk '{print $NF}' | tr '[a-z]' '[A-Z]')
+
+            # Make sure the MAC address is associated with an A record
+            dns_entry_first_char=$(echo "${dns_entry}" | cut -c 1)
+
+            case ${dns_entry_first_char} in
+
+                =)
+                    host_name=$(echo "${dns_entry}" | awk -F':' '{print $1}' | sed -e "s/^${dns_entry_first_char}//g")
+                    ip_address=$(echo "${dns_entry}" | awk -F':' '{print $2}')
+                    short_host_name=$(echo "${host_name}" | awk -F'.' '{print $1}')
+
+                    echo "    Adding DHCPD entry for ${short_host_name}"
+                    echo "    host ${short_host_name}"                      >> "${dhcpd_conf_file}"
+                    echo "        hardware ethernet ${mac_address_entry};"  >> "${dhcpd_conf_file}"
+                    echo "        fixed-address ${host_name};"              >> "${dhcpd_conf_file}"
+                    echo "        option host-name \"${short_host_name}\";" >> "${dhcpd_conf_file}"
+                    echo "    }"                                            >> "${dhcpd_conf_file}"
+                    echo ""                                                 >> "${dhcpd_conf_file}"
+                ;;
+
+            esac
+
+        fi
+
+    done
+
+    if [ -e "${dhcpd_conf_file}" ]; then
+        echo "}" >> "${dhcpd_conf_file}"
+        echo "DHCPD processing complete"
+    fi
+
+fi
+
+# WHAT: Complain if necessary then exit
+# WHY:  Success or failure, either way we are through!
+#
+if [ ${exit_code} -ne ${SUCCESS} ]; then
+
+    if [ "${err_msg}" != "" ]; then
+        echo "  ERROR:  ${err_msg} ... processing halted"
+    fi
+
+fi
+
+exit ${exit_code}
