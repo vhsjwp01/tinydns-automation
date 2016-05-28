@@ -1,3 +1,12 @@
+# NOTE: This file is used to derive the both the TinyDNS
+#       input data for its DB creation, AND the DHCPD
+#       configuration file.
+#
+#       This is possible by making each A Record line a
+#       dual entry of the form:
+#
+#       <TinyDNS formatted data> <MAC Address>
+#
 #------------------------------------------------+
 # DEFINE THE SOA, NS, AND INITIAL A RECORDS HERE |
 #------------------------------------------------+
