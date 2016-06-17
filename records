@@ -55,6 +55,7 @@ Crdp.lab.ingram.io:lviclabrdp01.lab.ingram.io
 =lviclabfsadmin.lab.ingram.io:10.50.3.214 46:F1:CA:55:5B:CD
 =lvicdnsd01.lab.ingram.io:10.50.3.215 00:1a:4a:16:01:57
 =lvicdnsd02.lab.ingram.io:10.50.3.216 00:1a:4a:16:01:58
+=lvicdnsd03.lab.ingram.io:10.50.3.217 00:1a:4a:16:01:59
 =lviclabfstest03.lab.ingram.io:10.50.3.218
 =lv-1-ids02.lab.ingram.io:10.50.3.230 BE:C5:F8:A5:AF:85
 =lviclabapt01.lab.ingram.io:10.50.3.231 0A:C1:42:8C:E3:AE
