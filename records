@@ -80,6 +80,7 @@ Crdp.lab.ingram.io:lviclabrdp01.lab.ingram.io
 =labranchert01.lab.ingram.io:10.50.3.201 00:1a:4a:16:01:5b
 =labranchert02.lab.ingram.io:10.50.3.177 00:1a:4a:16:01:64
 =lvicrpmtestd01.lab.ingram.io:10.50.3.175 00:1a:4a:16:01:63
+=lvicdockertestd01.lab.ingram.io:10.50.3.176
 
 #-------------------------------------------------------------+
 # ADD NEW VIP RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
