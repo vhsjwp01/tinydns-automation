@@ -79,6 +79,9 @@ Crdp.lab.ingram.io:lviclabrdp01.lab.ingram.io
 =labpupclientt01.lab.ingram.io:10.50.3.212 52:54:00:73:f8:11
 =labranchert01.lab.ingram.io:10.50.3.201 00:1a:4a:16:01:5b
 =labranchert02.lab.ingram.io:10.50.3.177 00:1a:4a:16:01:64
+=labswarmt01.lab.ingram.io:10.50.3.171 00:1a:4a:16:01:60
+=labswarmt02.lab.ingram.io:10.50.3.169 00:1a:4a:16:01:5f
+=labswarmt03.lab.ingram.io:10.50.3.173 00:1a:4a:16:01:61
 =lvicrpmtestd01.lab.ingram.io:10.50.3.175 00:1a:4a:16:01:63
 =lvicdockertestd01.lab.ingram.io:10.50.3.176
 =lvicstackstormt01.lab.ingram.io:10.50.3.178 00:1a:4a:16:01:5d
