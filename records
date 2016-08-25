@@ -30,7 +30,7 @@ Capt.lab.ingram.io:lviclabapt01.lab.ingram.io
 Citpong.lab.ingram.io:lviclabapt01.lab.ingram.io
 Cxoa.lab.ingram.io:lviclabxoa01.lab.ingram.io
 Crdp.lab.ingram.io:lviclabrdp01.lab.ingram.io
-Clvicjenkinsmt01.lab.ingram.io:labranchert01.lab.ingram.io
+Clabjenkinsmt01.lab.ingram.io:labranchert01.lab.ingram.io
 
 #-----------------------------------------------------------+
 # ADD NEW A RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
@@ -79,7 +79,7 @@ Clvicjenkinsmt01.lab.ingram.io:labranchert01.lab.ingram.io
 =labpupsvrt01.lab.ingram.io:10.50.3.211 52:54:00:ce:2b:7d
 =labpupclientt01.lab.ingram.io:10.50.3.212 52:54:00:73:f8:11
 =labranchert01.lab.ingram.io:10.50.3.201 52:54:00:8d:0e:4c
-=labranchert02.lab.ingram.io:10.50.3.177 00:1a:4a:16:01:64
+=labjenkinsst01.lab.ingram.io:10.50.3.181 00:1a:4a:16:01:51
 =labswarmt01.lab.ingram.io:10.50.3.171 00:1a:4a:16:01:60
 =labswarmt02.lab.ingram.io:10.50.3.169 00:1a:4a:16:01:5f
 =labswarmt03.lab.ingram.io:10.50.3.173 00:1a:4a:16:01:61
