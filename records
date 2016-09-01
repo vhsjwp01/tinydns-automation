@@ -36,7 +36,7 @@ Clabjenkinsmt01.lab.ingram.io:labranchert01.lab.ingram.io
 # ADD NEW A RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
 #-----------------------------------------------------------+
 =labvmhostt01.lab.ingram.io:10.50.3.100 a0:36:9f:bc:be:50
-=labvmhostt02.lab.ingram.io:10.50.3.101 a0:36:9f:4f:20:64
+=labvmhostt02.lab.ingram.io:10.50.3.101 a0:36:9f:b9:ff:40
 =labvmhostt03.lab.ingram.io:10.50.3.99 a0:36:9f:33:39:e8
 =labvmhostt04.lab.ingram.io:10.50.3.98 a0:36:9f:2a:b8:78
 =labvmfst01.lab.ingram.io:10.50.3.102 a0:36:9f:31:32:84
