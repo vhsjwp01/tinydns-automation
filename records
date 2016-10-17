@@ -45,6 +45,8 @@ Clabjenkinsmt01.lab.ingram.io:labranchert01.lab.ingram.io
 =labvmfst01.lab.ingram.io:10.50.3.102 a0:36:9f:31:32:84
 =labvmfst02.lab.ingram.io:10.50.3.103 a0:36:9f:33:3b:e0
 =labovirt.lab.ingram.io:10.50.3.104 52:54:00:98:72:2a
+=labovirtmgmtt01.lab.ingram.io:10.50.3.105 52:54:00:d1:85:0f
+=labovirtmgmtt01.lab.ingram.io:10.50.3.105 52:54:00:d1:85:0f
 =labvmhostt01-mgmt.lab.ingram.io:10.50.3.109 18:66:da:61:9c:dd
 =labvmhostt02-mgmt.lab.ingram.io:10.50.3.110 18:66:da:61:9e:dd
 =labvmhostt03-mgmt.lab.ingram.io:10.50.3.111 18:66:da:61:b6:7b
