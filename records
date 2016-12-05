@@ -102,6 +102,8 @@ Clabjenkinsmt01.lab.ingram.io:labranchert01.lab.ingram.io
 =802-poc-win7.lab.ingram.io:10.50.3.4
 =802-poc-win10.lab.ingram.io:10.50.3.5
 =WIN-NPS-OVRT.lab.ingram.io:10.50.3.160 00:1A:4A:16:01:6E
+=WIN-1Q732OQ8FL0.lab.ingram.io:10.50.3.205 00:1A:4A:16:01:55
+=WIN-PKI-OVRT.lab.ingram.io:10.50.3.166 00:1A:4A:16:01:5C
 
 #-------------------------------------------------------------+
 # ADD NEW VIP RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
