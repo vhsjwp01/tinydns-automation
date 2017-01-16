@@ -31,6 +31,7 @@ Citpong.lab.ingram.io:lviclabapt01.lab.ingram.io
 Cxoa.lab.ingram.io:lviclabxoa01.lab.ingram.io
 Crdp.lab.ingram.io:lviclabrdp01.lab.ingram.io
 Clabjenkinsmt01.lab.ingram.io:labranchert01.lab.ingram.io
+CDSCPull.lab.ingram.io:WIN-ONRFATSLGDU.lab.ingram.io
 
 #-----------------------------------------------------------+
 # ADD NEW A RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
@@ -83,10 +84,14 @@ Clabjenkinsmt01.lab.ingram.io:labranchert01.lab.ingram.io
 =WIN-PKI-OVRT.lab.ingram.io:10.50.3.166 00:1A:4A:16:01:5C
 =spacewalk-db.lab.ingram.io:10.50.3.162 00:1A:4A:16:01:DB
 =WIN2K12R2PS.lab.ingram.io:10.50.3.135 00:1A:4A:16:01:A6
+=WIN-ONRFATSLGDU.lab.ingram.io:10.50.3.139 00:1a:4a:16:01:c0
+=WIN-AD88EFIOGUL.lab.ingram.io:10.50.3.214 00:1a:4a:16:01:57
+
 
 #-------------------------------------------------------------+
 # ADD NEW VIP RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
 #-------------------------------------------------------------+
+
 
 #-------------------------------------------------------------------------------
 ################################################################################
