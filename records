@@ -42,7 +42,7 @@ CDSCPull.lab.ingram.io:WIN-ONRFATSLGDU.lab.ingram.io
 =labvmhostt04.lab.ingram.io:10.50.3.98 a0:36:9f:2a:b8:78
 =labvmhostt05.lab.ingram.io:10.50.3.97 a0:36:9f:ba:00:3c
 =labutild01.lab.ingram.io:10.50.3.188 00:1c:23:bd:89:be
-=lvicutild01.lab.ingram.io:10.50.3.147 00:1a:4a:16:01:7a
+=labkvmt01.lab.ingram.io:10.50.3.147 00:1a:4a:16:01:7a
 =labsect01.lab.ingram.io:10.50.3.190 a0:36:9f:33:39:e8
 =labvmfst01.lab.ingram.io:10.50.3.102 a0:36:9f:31:32:84
 =labvmfst02.lab.ingram.io:10.50.3.103 a0:36:9f:33:3b:e0
