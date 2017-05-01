@@ -82,6 +82,10 @@ Clabjenkinsmt01.lab.ingram.io:labranchert01.lab.ingram.io
 =WIN-1Q732OQ8FL0.lab.ingram.io:10.50.3.205 00:1A:4A:16:01:55
 =WIN-PKI-OVRT.lab.ingram.io:10.50.3.166 00:1A:4A:16:01:5C
 =spacewalk-db.lab.ingram.io:10.50.3.162 00:1A:4A:16:01:DB
+=labcsdockert01.lab.ingram.io:10.50.3.224 00:1A:4A:16:01:87
+=labcsdockert03.lab.ingram.io:10.50.3.229 00:1A:4A:16:01:8A
+=labcsdockert04.lab.ingram.io:10.50.3.226 00:1A:4A:16:01:8B
+
 
 #-------------------------------------------------------------+
 # ADD NEW VIP RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
