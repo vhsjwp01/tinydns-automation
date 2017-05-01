@@ -40,12 +40,12 @@ Clabjenkinsmt01.lab.ingram.io:labranchert01.lab.ingram.io
 =labvmhostt03.lab.ingram.io:10.50.3.99 a0:36:9f:b9:fa:ec
 =labvmhostt04.lab.ingram.io:10.50.3.98 a0:36:9f:2a:b8:78
 =labvmhostt05.lab.ingram.io:10.50.3.97 a0:36:9f:ba:00:3c
-=labutilt01.lab.ingram.io:10.50.3.188 00:1c:23:bd:89:be
+=labutild01.lab.ingram.io:10.50.3.188 00:1c:23:bd:89:be
+=labkvmt02.lab.ingram.io:10.50.3.129 00:1a:4a:16:01:7a
 =labsect01.lab.ingram.io:10.50.3.190 a0:36:9f:33:39:e8
 =labvmfst01.lab.ingram.io:10.50.3.102 a0:36:9f:31:32:84
 =labvmfst02.lab.ingram.io:10.50.3.103 a0:36:9f:33:3b:e0
 =labovirt.lab.ingram.io:10.50.3.104 52:54:00:98:72:2a
-=labovirtmgmtt01.lab.ingram.io:10.50.3.105 52:54:00:d1:85:0f
 =labvmhostt01-mgmt.lab.ingram.io:10.50.3.109 18:66:da:61:9c:dd
 =labvmhostt02-mgmt.lab.ingram.io:10.50.3.110 18:66:da:61:9e:dd
 =labvmhostt03-mgmt.lab.ingram.io:10.50.3.111 18:66:da:61:b6:7b
@@ -67,8 +67,8 @@ Clabjenkinsmt01.lab.ingram.io:labranchert01.lab.ingram.io
 =labelkt10.lab.ingram.io:10.50.3.192 00:1a:4a:16:01:54
 =labelkt11.lab.ingram.io:10.50.3.195 0c:c4:7a:1d:b2:f3
 =labkvmt01.lab.ingram.io:10.50.3.150 00:0f:58:03:36:b1
+=labpuppett01.lab.ingram.io:10.50.3.247 00:1a:4a:16:01:5b
 =labpupsvrt01.lab.ingram.io:10.50.3.211 52:54:00:ce:2b:7d
-=labpupsvrt02.lab.ingram.io:10.50.3.183 00:1a:4a:16:01:52
 =labpupclientt01.lab.ingram.io:10.50.3.212 52:54:00:73:f8:11
 =labranchert01.lab.ingram.io:10.50.3.201 52:54:00:8d:0e:4c
 =labjenkinsst01.lab.ingram.io:10.50.3.181 00:1a:4a:16:01:51
@@ -82,14 +82,19 @@ Clabjenkinsmt01.lab.ingram.io:labranchert01.lab.ingram.io
 =WIN-1Q732OQ8FL0.lab.ingram.io:10.50.3.205 00:1A:4A:16:01:55
 =WIN-PKI-OVRT.lab.ingram.io:10.50.3.166 00:1A:4A:16:01:5C
 =spacewalk-db.lab.ingram.io:10.50.3.162 00:1A:4A:16:01:DB
+=WIN2K12R2PS.lab.ingram.io:10.50.3.135 00:1A:4A:16:01:A6
+=WIN-DSC-PULL.lab.ingram.802.1x:10.50.3.253 00:1a:4a:16:01:7e
+=WIN-DSC-PULL2.lab.ingram.802.1x:10.50.3.251 00:1a:4a:16:01:77
+=WIN-DSC-S1.lab.ingram.802.1x:10.50.3.254 00:1a:4a:16:01:6c
+=WIN-DSC-S4.lab.ingram.802.1x:10.50.3.252 00:1a:4a:16:01:6b
 =labcsdockert01.lab.ingram.io:10.50.3.224 00:1A:4A:16:01:87
 =labcsdockert03.lab.ingram.io:10.50.3.229 00:1A:4A:16:01:8A
 =labcsdockert04.lab.ingram.io:10.50.3.226 00:1A:4A:16:01:8B
 
-
 #-------------------------------------------------------------+
 # ADD NEW VIP RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
 #-------------------------------------------------------------+
+
 
 #-------------------------------------------------------------------------------
 ################################################################################
