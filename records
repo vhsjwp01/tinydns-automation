@@ -87,6 +87,9 @@ Clabjenkinsmt01.lab.ingram.io:labranchert01.lab.ingram.io
 =WIN-DSC-PULL2.lab.ingram.802.1x:10.50.3.251 00:1a:4a:16:01:77
 =WIN-DSC-S1.lab.ingram.802.1x:10.50.3.254 00:1a:4a:16:01:6c
 =WIN-DSC-S4.lab.ingram.802.1x:10.50.3.252 00:1a:4a:16:01:6b
+=labcsdockert01.lab.ingram.io:10.50.3.224 00:1A:4A:16:01:87
+=labcsdockert03.lab.ingram.io:10.50.3.229 00:1A:4A:16:01:8A
+=labcsdockert04.lab.ingram.io:10.50.3.226 00:1A:4A:16:01:8B
 
 #-------------------------------------------------------------+
 # ADD NEW VIP RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
