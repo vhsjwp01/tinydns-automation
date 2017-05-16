@@ -88,6 +88,7 @@ Clabjenkinsmt01.lab.ingram.io:labranchert01.lab.ingram.io
 =WIN-DSC-S1.lab.ingram.802.1x:10.50.3.254 00:1a:4a:16:01:6c
 =WIN-DSC-S4.lab.ingram.802.1x:10.50.3.252 00:1a:4a:16:01:6b
 =jplumme-cs-docker-01.lab.ingram.io:10.50.3.224 00:1A:4A:16:01:87
+=jplumme-cs-docker-02.lab.ingram.io:10.50.3.227 00:1A:4A:16:01:89
 =jplumme-cs-docker-03.lab.ingram.io:10.50.3.229 00:1A:4A:16:01:8A
 =jplumme-cs-docker-04.lab.ingram.io:10.50.3.226 00:1A:4A:16:01:8B
 =labfbsdt01.lab.ingram.io:10.50.3.198 52:54:00:5d:13:ea
