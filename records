@@ -92,6 +92,7 @@ Clabjenkinsmt01.lab.ingram.io:labranchert01.lab.ingram.io
 =jplumme-cs-docker-03.lab.ingram.io:10.50.3.229 00:1A:4A:16:01:8A
 =jplumme-cs-docker-04.lab.ingram.io:10.50.3.226 00:1A:4A:16:01:8B
 =labfbsdt01.lab.ingram.io:10.50.3.198 52:54:00:5d:13:ea
+=labisilon.lab.ingram.io:10.50.3.159 00:07:43:08:c1:d0
 
 #-------------------------------------------------------------+
 # ADD NEW VIP RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
