@@ -76,17 +76,8 @@ Clabjenkinsmt01.lab.ingram.io:labranchert01.lab.ingram.io
 =labswarmt02.lab.ingram.io:10.50.3.169 00:1a:4a:16:01:5f
 =labswarmt03.lab.ingram.io:10.50.3.173 00:1a:4a:16:01:61
 =802-poc-sw.lab.ingram.io:10.50.3.3 cc:4e.242b.47:40
-=802-poc-win7.lab.ingram.io:10.50.3.149 00:01:c0:19:90:90
-=802-poc-win10.lab.ingram.io:10.50.3.194 f4:4d:30:62:10:c5 
-=WIN-NPS-OVRT.lab.ingram.io:10.50.3.160 00:1A:4A:16:01:6E
-=WIN-1Q732OQ8FL0.lab.ingram.io:10.50.3.205 00:1A:4A:16:01:55
-=WIN-PKI-OVRT.lab.ingram.io:10.50.3.166 00:1A:4A:16:01:5C
 =spacewalk-db.lab.ingram.io:10.50.3.162 00:1A:4A:16:01:DB
 =WIN2K12R2PS.lab.ingram.io:10.50.3.135 00:1A:4A:16:01:A6
-=WIN-DSC-PULL.lab.ingram.802.1x:10.50.3.253 00:1a:4a:16:01:7e
-=WIN-DSC-PULL2.lab.ingram.802.1x:10.50.3.251 00:1a:4a:16:01:77
-=WIN-DSC-S1.lab.ingram.802.1x:10.50.3.254 00:1a:4a:16:01:6c
-=WIN-DSC-S4.lab.ingram.802.1x:10.50.3.252 00:1a:4a:16:01:6b
 =jplumme-cs-docker-01.lab.ingram.io:10.50.3.224 00:1A:4A:16:01:87
 =jplumme-cs-docker-02.lab.ingram.io:10.50.3.227 00:1A:4A:16:01:89
 =jplumme-cs-docker-03.lab.ingram.io:10.50.3.229 00:1A:4A:16:01:8A
