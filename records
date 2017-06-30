@@ -30,6 +30,14 @@ Capt.lab.ingram.io:lviclabapt01.lab.ingram.io
 Citpong.lab.ingram.io:lviclabapt01.lab.ingram.io
 Crdp.lab.ingram.io:lviclabrdp01.lab.ingram.io
 Clabjenkinsmt01.lab.ingram.io:labranchert01.lab.ingram.io
+Cjwp-test01.lab.ingram.io:jplumme-cs-docker-01.lab.ingram.io
+Cjwp-test02.lab.ingram.io:jplumme-cs-docker-02.lab.ingram.io
+Cjwp-test03.lab.ingram.io:jplumme-cs-docker-03.lab.ingram.io
+Cjwp-test04.lab.ingram.io:jplumme-cs-docker-04.lab.ingram.io
+Cjwp-test05.lab.ingram.io:jplumme-cs-docker-01.lab.ingram.io
+Cjwp-test06.lab.ingram.io:jplumme-cs-docker-02.lab.ingram.io
+Cjwp-test07.lab.ingram.io:jplumme-cs-docker-03.lab.ingram.io
+Cjwp-test08.lab.ingram.io:jplumme-cs-docker-04.lab.ingram.io
 
 #-----------------------------------------------------------+
 # ADD NEW A RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
