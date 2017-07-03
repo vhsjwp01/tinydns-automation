@@ -38,6 +38,9 @@ Cjwp-test05.lab.ingram.io:jplumme-cs-docker-01.lab.ingram.io
 Cjwp-test06.lab.ingram.io:jplumme-cs-docker-02.lab.ingram.io
 Cjwp-test07.lab.ingram.io:jplumme-cs-docker-03.lab.ingram.io
 Cjwp-test08.lab.ingram.io:jplumme-cs-docker-04.lab.ingram.io
+Cmavenhub.lab.ingram.io:jplumme-cs-docker-01.lab.ingram.io
+Cdockerhub.lab.ingram.io:jplumme-cs-docker-01.lab.ingram.io
+Crubyhub.lab.ingram.io:jplumme-cs-docker-01.lab.ingram.io
 
 #-----------------------------------------------------------+
 # ADD NEW A RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
