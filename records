@@ -99,7 +99,9 @@ Crubyhub.lab.ingram.io:jplumme-cs-docker-01.lab.ingram.io
 #-------------------------------------------------------------+
 # ADD NEW VIP RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
 #-------------------------------------------------------------+
-&labtest.lab.ingram.io:10.50.3.164:dc1.labtest.lab.ingram.io:
+#&labtest.lab.ingram.io:10.50.3.164:dc1.labtest.lab.ingram.io:
+#&labtest.lab.ingram.io::dc1.labtest.lab.ingram.io
+=dc1.labtest.lab.ingram.io:10.50.3.164 00:1a:4a:16:01:se
 
 #-------------------------------------------------------------------------------
 ################################################################################
