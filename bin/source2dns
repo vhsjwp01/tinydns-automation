@@ -183,7 +183,7 @@ sub f__ipcheck {
         my @octets = split( /\./, $arg );
         my $octet_count = scalar @octets;
         my $has_letters = 0;
-        my $has_letters++ while ( $arg =~ m/[^0-9\.]/g );
+        $has_letters++ while ( $arg =~ m/[^0-9\.]/g );
 
         if (( $octet_count == $valid_octets ) && ( $has_letters == 0 )) {
             my $counter = 0;
@@ -343,7 +343,7 @@ sub f__tinydns {
                         my $max_parts      = 2;
                         my $min_parts      = 1;
                         my $this_loc       = $elements[0];
-                        my $this_loc       =~ s/^$first_character//g;
+                        $this_loc          =~ s/^$first_character//g;
                         my $loc_length     = length( $this_loc );
 
                         if ( $loc_length <= $max_loc_length ) {
@@ -431,6 +431,7 @@ sub f__tinydns {
                         my $is_ipaddress = 0;
                         my $is_fqhn      = 0;
                         my $is_shn       = 0;
+                        my $is_delegated = 0;
                         my $valid_name   = 0;
 
                         if (( $part_count >= $min_parts ) && ( $part_count <= $max_parts )) {
@@ -448,6 +449,10 @@ sub f__tinydns {
                                 $first_element =~ s/^$first_character//g;
 
                                 # This element is either a forward or reverse zone record
+                                if ( $first_character eq '&' ) {
+                                    $is_delegated = 1;
+                                }
+
                                 if ( $first_element =~ /^$ENV{'dns_domain'}$/ ) {
                                     $is_forward = 1;
                                 }
@@ -456,7 +461,39 @@ sub f__tinydns {
                                     $is_reverse = 1;
                                 }
 
-                                if (( $is_forward == 1 ) || ( $is_reverse == 1 )) {
+                                if ( $is_delegated == 1 ) {
+                                    # Check FQDN validity of element 0 - this should be the domain delegation target
+                                    my $is_fqhn1 = 0;
+                                    my $is_fqhn2 = 0;
+                                    my $is_ipaddress = 0;
+
+                                    my $this_arg = $elements[0];
+                                    $this_arg =~ s/^$first_character//g;
+                                    $is_fqhn1 = &f__fqhncheck( $this_arg );
+
+                                    # Check FQDN validity of element 1 - this should be an IP address (optional)
+                                    if ( $elements[1] ne "" ) {
+                                        $is_ipaddress = &f__ipcheck( $elements[1] );
+                                    } else {
+                                        $is_ipaddress = 1;
+                                    }
+
+                                    # Check FQDN validity of element 2 - this should be the domain delegation source
+                                    $is_fqhn2 = &f__fqhncheck( $elements[2] );
+
+                                    #print "Checks: \n";
+                                    #print "fqhn1: $is_fqhn1\n";
+                                    #print "fqhn2: $is_fqhn2\n";
+                                    #print "ip_address: $is_ipaddress\n";
+
+                                    if (( $is_fqhn1 == 1 ) && ( $is_fqhn2 == 1 ) && ( $is_ipaddress == 1 )) {
+                                        $msg = "        Adding validated DELEGATION record entry: \"$record\"";
+                                        $write_record = 1;
+                                    } else {
+                                        $err_msg = "            ERROR:  Malformed zone delegation definition in record entry: \"$record\"";
+                                    }
+
+                                } elsif (( $is_forward == 1 ) || ( $is_reverse == 1 )) {
                                     # Make sure $elements[1] is a properly formatted IP address
                                     $is_ipaddress = &f__ipcheck( $elements[1] );
 
