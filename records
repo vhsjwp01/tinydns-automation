@@ -45,6 +45,7 @@ Crubyhub.lab.ingram.io:jplumme-cs-docker-01.lab.ingram.io
 #-----------------------------------------------------------+
 # ADD NEW A RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
 #-----------------------------------------------------------+
+=labpuppett01.lab.ingram.io:10.50.3.10 00:1a:4a:16:01:5b
 =labvmhostt01.lab.ingram.io:10.50.3.100 a0:36:9f:bc:be:50
 =labvmhostt02.lab.ingram.io:10.50.3.101 a0:36:9f:b9:ff:40
 =labvmhostt03.lab.ingram.io:10.50.3.99 a0:36:9f:b9:fa:ec
@@ -77,7 +78,6 @@ Crubyhub.lab.ingram.io:jplumme-cs-docker-01.lab.ingram.io
 =labelkt10.lab.ingram.io:10.50.3.192 00:1a:4a:16:01:54
 =labelkt11.lab.ingram.io:10.50.3.195 0c:c4:7a:1d:b2:f3
 =labkvmt01.lab.ingram.io:10.50.3.150 00:0f:58:03:36:b1
-=labpuppett01.lab.ingram.io:10.50.3.247 00:1a:4a:16:01:5b
 =labpupsvrt01.lab.ingram.io:10.50.3.211 52:54:00:ce:2b:7d
 =labpupclientt01.lab.ingram.io:10.50.3.212 52:54:00:73:f8:11
 =labranchert01.lab.ingram.io:10.50.3.201 52:54:00:8d:0e:4c
