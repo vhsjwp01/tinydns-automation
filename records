@@ -47,7 +47,6 @@ Crubyhub.lab.ingram.io:jplumme-cs-docker-01.lab.ingram.io
 #-----------------------------------------------------------+
 =labpuppett01.lab.ingram.io:10.50.3.10 00:1a:4a:16:01:5b
 =labpuppett02.lab.ingram.io:10.50.3.12 40:A1:A4:16:01:5b
-=labpuppett03.lab.ingram.io:10.50.3.13 41:A1:A4:16:01:5b
 =labvmhostt01.lab.ingram.io:10.50.3.100 a0:36:9f:bc:be:50
 =labvmhostt02.lab.ingram.io:10.50.3.101 a0:36:9f:b9:ff:40
 =labvmhostt03.lab.ingram.io:10.50.3.99 a0:36:9f:b9:fa:ec
@@ -87,7 +86,7 @@ Crubyhub.lab.ingram.io:jplumme-cs-docker-01.lab.ingram.io
 =labswarmt01.lab.ingram.io:10.50.3.171 00:1a:4a:16:01:60
 =labswarmt02.lab.ingram.io:10.50.3.169 00:1a:4a:16:01:5f
 =labswarmt03.lab.ingram.io:10.50.3.173 00:1a:4a:16:01:61
-=802-poc-sw.lab.ingram.io:10.50.3.3 cc:4e.242b.47:40
+=802-poc-sw.lab.ingram.io:10.50.3.3 cc:4e:24:2b:47:40
 =spacewalk-db.lab.ingram.io:10.50.3.162 00:1A:4A:16:01:DB
 =WIN2K12R2PS.lab.ingram.io:10.50.3.135 00:1A:4A:16:01:A6
 =jplumme-cs-docker-01.lab.ingram.io:10.50.3.224 00:1A:4A:16:01:87
@@ -102,7 +101,7 @@ Crubyhub.lab.ingram.io:jplumme-cs-docker-01.lab.ingram.io
 #-------------------------------------------------------------+
 #&labtest.lab.ingram.io:10.50.3.164:dc1.labtest.lab.ingram.io:
 &labtest.lab.ingram.io::dc1.labtest.lab.ingram.io
-=dc1.labtest.lab.ingram.io:10.50.3.164 00:1a:4a:16:01:se
+=dc1.labtest.lab.ingram.io:10.50.3.164 00:1a:4a:16:01:5e
 
 #-------------------------------------------------------------------------------
 ################################################################################
