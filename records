@@ -47,6 +47,7 @@ Crubyhub.lab.ingram.io:jplumme-cs-docker-01.lab.ingram.io
 #-----------------------------------------------------------+
 =labpuppett01.lab.ingram.io:10.50.3.10 00:1a:4a:16:01:5b
 =labpuppett02.lab.ingram.io:10.50.3.12 40:A1:A4:16:01:5b
+=labpuppett03.lab.ingram.io:10.50.3.13 41:A1:A4:16:01:5b
 =labvmhostt01.lab.ingram.io:10.50.3.100 a0:36:9f:bc:be:50
 =labvmhostt02.lab.ingram.io:10.50.3.101 a0:36:9f:b9:ff:40
 =labvmhostt03.lab.ingram.io:10.50.3.99 a0:36:9f:b9:fa:ec
