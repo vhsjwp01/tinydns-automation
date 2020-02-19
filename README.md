@@ -4,7 +4,7 @@
 
 ### A, NS record combined
 ```sh
-&fqdn:ip:x:ttl:timestamp:lo
+&amp;fqdn:ip:x:ttl:timestamp:lo
 ```
 
 Creates an A and NS record. Typically used to delegate a subdomain; can be used in combination with Z to accomplish the same thing as the combo above, but with a different email address.
