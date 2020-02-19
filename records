@@ -1,5 +1,5 @@
 #-------------------------------------------------------
-# NOTE: This file is used to derive the both the TinyDNS
+# NOTE: This file is used to derive both the TinyDNS
 #       input data for its DB creation, AND the DHCPD
 #       configuration file.
 #
@@ -11,96 +11,28 @@
 #------------------------------------------------+
 # DEFINE THE SOA, NS, AND INITIAL A RECORDS HERE |
 #------------------------------------------------+
-.lab.ingram.io:127.0.0.1:lab.ingram.io
-.3.50.10.in-addr.arpa:127.0.0.1:lab.ingram.io
-=lviclabrtrp01.lab.ingram.io:10.50.3.1
-=lviclabinfrap01.lab.ingram.io:10.50.3.2
-=lviclabxenp02.lab.ingram.io:10.50.3.3 00:26:55:2F:B3:66
-=lviclabxenp03.lab.ingram.io:10.50.3.4 00:26:55:2A:BF:28
+#.lab.dns:127.0.0.1:lab.dns
+#.3.50.10.in-addr.arpa:127.0.0.1:lab.dns
+#=labrtrp01.lab.dns:10.50.3.1
 
 #------------------------+
 # DEFINE THE CNAMES HERE |
 #------------------------+
-Cdns.lab.ingram.io:lviclabinfrap01.lab.ingram.io:::
-Cdhcp.lab.ingram.io:lviclabinfrap01.lab.ingram.io
-Cpxe.lab.ingram.io:lviclabinfrap01.lab.ingram.io
-Cntp.lab.ingram.io:lviclabinfrap01.lab.ingram.io
-Clviclabxenp01.lab.ingram.io:lviclabxenp01.ingramcontent.com
-Capt.lab.ingram.io:lviclabapt01.lab.ingram.io
-Citpong.lab.ingram.io:lviclabapt01.lab.ingram.io
-Crdp.lab.ingram.io:lviclabrdp01.lab.ingram.io
-Clabjenkinsmt01.lab.ingram.io:labranchert01.lab.ingram.io
-Cjwp-test01.lab.ingram.io:jplumme-cs-docker-01.lab.ingram.io
-Cjwp-test02.lab.ingram.io:jplumme-cs-docker-02.lab.ingram.io
-Cjwp-test03.lab.ingram.io:jplumme-cs-docker-03.lab.ingram.io
-Cjwp-test04.lab.ingram.io:jplumme-cs-docker-04.lab.ingram.io
-Cjwp-test05.lab.ingram.io:jplumme-cs-docker-01.lab.ingram.io
-Cjwp-test06.lab.ingram.io:jplumme-cs-docker-02.lab.ingram.io
-Cjwp-test07.lab.ingram.io:jplumme-cs-docker-03.lab.ingram.io
-Cjwp-test08.lab.ingram.io:jplumme-cs-docker-04.lab.ingram.io
-Cmavenhub.lab.ingram.io:jplumme-cs-docker-01.lab.ingram.io
-Cdockerhub.lab.ingram.io:jplumme-cs-docker-01.lab.ingram.io
-Crubyhub.lab.ingram.io:jplumme-cs-docker-01.lab.ingram.io
+#Cdns.lab.dns:labinfrap01.lab.dns:::
+#Cdhcp.lab.dns:labinfrap01.lab.dns
+#Cpxe.lab.dns:labinfrap01.lab.dns
+#Cntp.lab.dns:labinfrap01.lab.dns
 
 #-----------------------------------------------------------+
 # ADD NEW A RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
 #-----------------------------------------------------------+
-=labpuppett01.lab.ingram.io:10.50.3.10 00:1a:4a:16:01:5b
-=labvmhostt01.lab.ingram.io:10.50.3.100 a0:36:9f:bc:be:50
-=labvmhostt02.lab.ingram.io:10.50.3.101 a0:36:9f:b9:ff:40
-=labvmhostt03.lab.ingram.io:10.50.3.99 a0:36:9f:b9:fa:ec
-=labvmhostt04.lab.ingram.io:10.50.3.98 a0:36:9f:2a:b8:78
-=labvmhostt05.lab.ingram.io:10.50.3.97 a0:36:9f:ba:00:3c
-=labutild01.lab.ingram.io:10.50.3.188 00:1c:23:bd:89:be
-=labkvmt02.lab.ingram.io:10.50.3.129 00:1a:4a:16:01:7a
-=labsect01.lab.ingram.io:10.50.3.190 a0:36:9f:33:39:e8
-=labvmfst01.lab.ingram.io:10.50.3.102 a0:36:9f:31:32:84
-=labvmfst02.lab.ingram.io:10.50.3.103 a0:36:9f:33:3b:e0
-=labovirt.lab.ingram.io:10.50.3.104 52:54:00:98:72:2a
-=labvmhostt01-mgmt.lab.ingram.io:10.50.3.109 18:66:da:61:9c:dd
-=labvmhostt02-mgmt.lab.ingram.io:10.50.3.110 18:66:da:61:9e:dd
-=labvmhostt03-mgmt.lab.ingram.io:10.50.3.111 18:66:da:61:b6:7b
-=labvmhostt04-mgmt.lab.ingram.io:10.50.3.112 b4:b5:2f:ea:41:0e
-=labvmhostt05-mgmt.lab.ingram.io:10.50.3.113 18:66:da:61:9f:c9
-=labsect01-mgmt.lab.ingram.io:10.50.3.119 5c:f9:dd:f5:c0:68
-=lviclabrdp01.lab.ingram.io:10.50.3.203 76:38:0A:99:23:9F
-=lv-1-ids02.lab.ingram.io:10.50.3.230 BE:C5:F8:A5:AF:85
-=lviclabapt01.lab.ingram.io:10.50.3.231 0A:C1:42:8C:E3:AE
-=labelkt01.lab.ingram.io:10.50.3.236 0c:c4:7a:79:a9:93
-=labelkt02.lab.ingram.io:10.50.3.237 0c:c4:7a:79:a8:e5
-=labelkt03.lab.ingram.io:10.50.3.238 0c:c4:7a:79:a9:0f
-=labelkt04.lab.ingram.io:10.50.3.239 0c:c4:7a:79:a9:bd
-=labelkt05.lab.ingram.io:10.50.3.240 0c:c4:7a:79:a5:51
-=labelkt06.lab.ingram.io:10.50.3.241 0c:c4:7a:79:a8:2f
-=labelkt07.lab.ingram.io:10.50.3.242 0c:c4:7a:79:a6:37
-=labelkt08.lab.ingram.io:10.50.3.243 0c:c4:7a:79:a8:13
-=labelkt09.lab.ingram.io:10.50.3.191 00:1a:4a:16:01:53
-=labelkt10.lab.ingram.io:10.50.3.192 00:1a:4a:16:01:54
-=labelkt11.lab.ingram.io:10.50.3.195 0c:c4:7a:1d:b2:f3
-=labkvmt01.lab.ingram.io:10.50.3.150 00:0f:58:03:36:b1
-=labpupsvrt01.lab.ingram.io:10.50.3.211 52:54:00:ce:2b:7d
-=labpupclientt01.lab.ingram.io:10.50.3.212 52:54:00:73:f8:11
-=labranchert01.lab.ingram.io:10.50.3.201 52:54:00:8d:0e:4c
-=labjenkinsst01.lab.ingram.io:10.50.3.181 00:1a:4a:16:01:51
-=labswarmt01.lab.ingram.io:10.50.3.171 00:1a:4a:16:01:60
-=labswarmt02.lab.ingram.io:10.50.3.169 00:1a:4a:16:01:5f
-=labswarmt03.lab.ingram.io:10.50.3.173 00:1a:4a:16:01:61
-=802-poc-sw.lab.ingram.io:10.50.3.3 cc:4e:24:2b:47:40
-=spacewalk-db.lab.ingram.io:10.50.3.162 00:1A:4A:16:01:DB
-=WIN2K12R2PS.lab.ingram.io:10.50.3.135 00:1A:4A:16:01:A6
-=jplumme-cs-docker-01.lab.ingram.io:10.50.3.224 00:1A:4A:16:01:87
-=jplumme-cs-docker-02.lab.ingram.io:10.50.3.227 00:1A:4A:16:01:89
-=jplumme-cs-docker-03.lab.ingram.io:10.50.3.229 00:1A:4A:16:01:8A
-=jplumme-cs-docker-04.lab.ingram.io:10.50.3.226 00:1A:4A:16:01:8B
-=labfbsdt01.lab.ingram.io:10.50.3.198 52:54:00:5d:13:ea
-=labisilon.lab.ingram.io:10.50.3.159 00:07:43:08:c1:d0
+#=cjp016-docker-01.lab.dns:10.50.3.224 00:1A:4A:16:01:87
 
 #-------------------------------------------------------------+
 # ADD NEW VIP RECORDS BELOW THIS DEMARCATOR IN TINYDNS FORMAT |
 #-------------------------------------------------------------+
-#&labtest.lab.ingram.io:10.50.3.164:dc1.labtest.lab.ingram.io:
-&labtest.lab.ingram.io::dc1.labtest.lab.ingram.io
-=dc1.labtest.lab.ingram.io:10.50.3.164 00:1a:4a:16:01:5e
+#&labtest.lab.dns:10.50.3.164:dc1.labtest.lab.dns:
+#&labtest.lab.dns::dc1.labtest.lab.dns
 
 #-------------------------------------------------------------------------------
 ################################################################################
